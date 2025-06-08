@@ -1,0 +1,28 @@
+services:
+  api:
+    build: .
+    container_name: desafio-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/desafio
+    volumes:
+      - .:/usr/src/app
+    command: npm run dev
+
+  db:
+    image: postgres:15
+    container_name: desafio-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: desafio
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
